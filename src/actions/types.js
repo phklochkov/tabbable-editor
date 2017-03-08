@@ -1,0 +1,6 @@
+export const TABS_ADD_ITEM = 'TABS_ADD_ITEM'
+export const TABS_REMOVE_ITEM = 'TABS_REMOVE_ITEM'
+export const TABS_SELECT_ITEM = 'TABS_SELECT_ITEM'
+
+// TODO: Think more.
+export const EDITOR_SAVE_DATA = 'EDITOR_SAVE_DATA'
