@@ -1,5 +1,28 @@
 import * as types from '../actions/types'
 
+// TODO: Refactor method.
+const changeItemPosition = (payload, items) => {
+  const { selected, endpoint } = payload
+
+  if (selected === endpoint) {
+    return items
+  }
+
+
+  const selectedIndex = items.findIndex((t) => t.id === selected)
+  const endIndex = items.findIndex((t) => t.id === endpoint)
+  const filtered = items.filter((t) => t.id !== selected)
+  let endpointIndex = filtered.findIndex((t) => t.id === endpoint)
+
+  const moveAfter = selectedIndex < endIndex
+
+  return [
+    ...filtered.slice(0, moveAfter ? endpointIndex + 1 : endpointIndex),
+    items[selectedIndex],
+    ...filtered.slice(moveAfter ? endpointIndex + 1 : endpointIndex)
+  ]
+}
+
 const INITIAL_STATE = {
   activeId: null,
   items: []
@@ -33,22 +56,9 @@ const tabs = (state = INITIAL_STATE, action) => {
         activeId: action.payload
       }
     case types.TABS_CHANGE_ITEM_POSITION:
-      // TODO: Add left or right move distinction.
-      // Clean up this mess.
-      const selected = state.items
-        .find((t) => t.id === action.payload.selected)
-      const filtered = state.items
-        .filter((t) => t.id !== action.payload.selected)
-      const indexToReplace = filtered
-        .findIndex((t) => t.id === action.payload.endpoint)
-
       return {
         ...state,
-        items: [
-          ...filtered.slice(0, indexToReplace + 1),
-          selected,
-          ...filtered.slice(indexToReplace + 1)
-        ]
+        items: changeItemPosition(action.payload, state.items)
       }
     default:
       return state
