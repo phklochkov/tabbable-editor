@@ -4,8 +4,8 @@ describe('app reducer', () => {
   it('should return the intial state', () => {
     const expected = { title: 'Text Editor with Tabs' }
 
-    const result = app(undefined, {})
+    const actual = app(undefined, {})
 
-    expect(result).toEqual(expected)
+    expect(actual).toEqual(expected)
   })
 })
