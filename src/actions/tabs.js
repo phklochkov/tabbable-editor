@@ -14,3 +14,8 @@ export const selectItem = (id) => ({
   type: types.TABS_SELECT_ITEM,
   payload: id
 })
+
+export const changeItemPosition = (payload) => ({
+  type: types.TABS_CHANGE_ITEM_POSITION,
+  payload
+})

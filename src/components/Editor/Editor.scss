@@ -1,0 +1,11 @@
+.text-area {
+  height: 40vh;
+  width: 100%;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 18px;
+  border: 0;
+  &:focus {
+    outline: 0;
+  }
+}

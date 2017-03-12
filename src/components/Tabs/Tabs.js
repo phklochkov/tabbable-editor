@@ -3,7 +3,7 @@ import {Wrapper} from './Wrapper'
 import {Tab} from './Tab'
 import {AddTab} from './AddTab'
 
-const Tabs = ({ tabs, handleAdd, handleSelect, handleRemove }) => {
+const Tabs = ({ tabs, handleAdd, handleSelect, handleRemove, handleDrop }) => {
   return (
     <Wrapper>
       {tabs.items && tabs.items.map(
@@ -12,6 +12,7 @@ const Tabs = ({ tabs, handleAdd, handleSelect, handleRemove }) => {
             key={i.id}
             item={i}
             handleSelect={handleSelect}
+            handleDrop={handleDrop}
             handleRemove={handleRemove} />
       )}
       <AddTab handleAdd={handleAdd} />
