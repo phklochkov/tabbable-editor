@@ -2,26 +2,20 @@ import React from 'react'
 import './Tab.css'
 
 const Tab = ({ item, handleClose, handleSelect, handleRemove, handleDrop }) => {
-  // TODO: Remove handlers.
   const removeTab = (e) => {
     e.preventDefault()
     handleRemove(item.id)
   }
 
   const handleDragStart = (e) => {
-    const dt = e.dataTransfer
-    dt.effectAllowed = 'link'
-    dt.setData('tab', item.id)
-  }
-
-  const handleDragOver = (e) => {
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'link'
+    e.dataTransfer.setData('tab', item.id)
   }
 
   const handleDropEv = (e) => {
-    const data = e.dataTransfer.getData('tab')
-    handleDrop({ selected: +data, endpoint: item.id })
+    handleDrop({
+      selected: +e.dataTransfer.getData('tab'),
+      target: item.id
+    })
   }
 
   return (
@@ -29,7 +23,7 @@ const Tab = ({ item, handleClose, handleSelect, handleRemove, handleDrop }) => {
       className="tab-item"
       draggable={true}
       onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
+      onDragOver={(e) => e.preventDefault()}
       onDrop={handleDropEv}
     >
       <span

@@ -1,30 +1,30 @@
 import * as types from '../actions/types'
 
-// TODO: Refactor method.
+// TODO: Think if could be done better.
 const changeItemPosition = (payload, items) => {
-  const { selected, endpoint } = payload
+  const { selected, target } = payload
 
-  if (selected === endpoint) {
+  if (selected === target) {
     return items
   }
 
-
-  const selectedIndex = items.findIndex((t) => t.id === selected)
-  const endIndex = items.findIndex((t) => t.id === endpoint)
+  const selectedIdx = items.findIndex((t) => t.id === selected)
+  const targetIdx = items.findIndex((t) => t.id === target)
   const filtered = items.filter((t) => t.id !== selected)
-  let endpointIndex = filtered.findIndex((t) => t.id === endpoint)
-
-  const moveAfter = selectedIndex < endIndex
+  // TODO: Refactor.
+  const position = selectedIdx < targetIdx ?
+    filtered.findIndex((t) => t.id === target) + 1 :
+    filtered.findIndex((t) => t.id === target)
 
   return [
-    ...filtered.slice(0, moveAfter ? endpointIndex + 1 : endpointIndex),
-    items[selectedIndex],
-    ...filtered.slice(moveAfter ? endpointIndex + 1 : endpointIndex)
+    ...filtered.slice(0, position),
+    items[selectedIdx],
+    ...filtered.slice(position)
   ]
 }
 
 const INITIAL_STATE = {
-  activeId: null,
+  activeId: null, // TODO: Think about type, if number do not use null.
   items: []
 }
 
@@ -40,14 +40,16 @@ const tabs = (state = INITIAL_STATE, action) => {
         ]
       }
     case types.TABS_REMOVE_ITEM:
-      const indexToRemove = state.items.findIndex((t) => t.id === action.payload)
+      const { items, activeId } = state
+      const indexToRemove = items.findIndex((t) => t.id === action.payload)
+
       return {
         ...state,
-        activeId: state.activeId === action.payload ?
-          state.items[state.items.length - 1].id : state.activeId,
+        activeId: activeId === action.payload ?
+          items[items.length - 1].id || null : activeId,
         items: [
-          ...state.items.slice(0, indexToRemove),
-          ...state.items.slice(indexToRemove + 1)
+          ...items.slice(0, indexToRemove),
+          ...items.slice(indexToRemove + 1)
         ]
      }
     case types.TABS_SELECT_ITEM:
